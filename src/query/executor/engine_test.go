@@ -59,7 +59,7 @@ func TestEngine_ExecuteExpr(t *testing.T) {
 	t.Run("releases and reports on completion", func(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		mockEnforcer := cost.NewMockChainedEnforcer(ctrl)
-		mockEnforcer.EXPECT().Release().Times(1)
+		mockEnforcer.EXPECT().Close().Times(1)
 
 		mockParent := cost.NewMockChainedEnforcer(ctrl)
 		mockParent.EXPECT().Child(gomock.Any()).Return(mockEnforcer)
@@ -77,7 +77,6 @@ func TestEngine_ExecuteExpr(t *testing.T) {
 
 		// drain the channel
 		res := <-results
-
 		require.NoError(t, res.Err)
 	})
 }
